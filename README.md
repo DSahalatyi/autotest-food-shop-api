@@ -1,0 +1,1 @@
+# autotest-food-shop-api
