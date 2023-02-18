@@ -27,3 +27,9 @@ def generate_random_user_info():
     return random_user_info
 
 
+def generate_random_food_section_info():
+    name = "Section" + str(random.randint(10**4,10**5))
+    ordering_priority = random.randint(1, 10**3)
+    is_available = True
+    payload = {"name": name, "ordering_priority": ordering_priority, "is_available": is_available}
+    return payload

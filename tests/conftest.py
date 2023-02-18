@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 
 from src.utilities.db_utility import DBUtility
 from src.utilities.random_generator \
-    import generate_random_user_info
+    import generate_random_user_info, generate_random_food_section_info
 
 load_dotenv()
 
@@ -73,3 +73,28 @@ def register_test_user(client, test_user_info):
 @pytest.fixture(scope="function")
 def register_random_user(client, random_user_info):
     yield client.post('api/auth/register', json=random_user_info)
+
+
+@pytest.fixture(scope="function")
+def test_food_section_info():
+    payload = {
+        "name": "Test-section",
+        "ordering_priority": 1000,
+        "is_available": True
+    }
+    yield payload
+
+
+@pytest.fixture(scope="function")
+def random_food_section_info():
+    yield generate_random_food_section_info()
+
+
+@pytest.fixture(scope="function")
+def create_test_food_section(client_is_staff_token, test_food_section_info):
+    client_is_staff_token.post("api/food-section/create", json=test_food_section_info)
+
+
+@pytest.fixture(scope="function")
+def create_random_food_section(client_is_staff_token, random_food_section_info):
+    client_is_staff_token.post("api/food-section/create", json=random_food_section_info)
