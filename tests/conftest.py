@@ -44,3 +44,8 @@ def db_utility():
     db_utility = DBUtility()
     yield db_utility
     db_utility.clear_database()
+
+
+@pytest.fixture(scope="function")
+def register_test_user(client, test_user_info):
+    yield client.post('api/auth/register', data=test_user_info)
