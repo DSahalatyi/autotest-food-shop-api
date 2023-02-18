@@ -1,3 +1,4 @@
+import json
 import os
 
 import httpx
@@ -17,6 +18,24 @@ base_url = os.getenv("BASE_URL")
 def client():
     with httpx.Client(base_url=base_url) as client:
         yield client
+
+
+@pytest.fixture(scope="function")
+def client_is_staff_token(client, register_test_user):
+    payload = {"username": "test_user", "password": "test_password"}
+    response = client.post('api/auth/login', json=payload)
+    with httpx.Client(base_url=base_url) as client_is_staff:
+        client_is_staff.headers.update({"authorization": f"Bearer {json.load(response)['accessToken']}"})
+        yield client_is_staff
+
+
+@pytest.fixture(scope="function")
+def client_random_token(client, register_random_user, random_user_info):
+    payload = {"username": random_user_info["username"], "password": random_user_info["password"]}
+    response = client.post('api/auth/login', json=payload)
+    with httpx.Client(base_url=base_url) as random_client:
+        random_client.headers.update({"authorization": f"Bearer {json.load(response)['accessToken']}"})
+        yield random_client
 
 
 @pytest.fixture(scope="function")
@@ -49,3 +68,8 @@ def db_utility():
 @pytest.fixture(scope="function")
 def register_test_user(client, test_user_info):
     yield client.post('api/auth/register', data=test_user_info)
+
+
+@pytest.fixture(scope="function")
+def register_random_user(client, random_user_info):
+    yield client.post('api/auth/register', json=random_user_info)
