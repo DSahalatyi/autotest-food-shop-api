@@ -2,6 +2,9 @@ import json
 import random, string
 
 
+image = [('file', ('test.png',open('src/data/test.png', 'rb'), 'image/png'))]
+
+
 def generate_random_user_info():
     names_json = open('src/data/names.json')
     names_and_surnames = json.load(names_json)
@@ -33,3 +36,19 @@ def generate_random_food_section_info():
     is_available = True
     payload = {"name": name, "ordering_priority": ordering_priority, "is_available": is_available}
     return payload
+
+
+def generate_random_food_item_info():
+    name = "FoodItem" + str(random.randint(1,10**3))
+    ordering_priority = int(random.randint(1, 10 ** 3))
+    price = float(round(random.uniform(1, 10**3), 2))
+    is_available = True
+    payload = {'name': name,
+               'food_section': '',
+               'ordering_priority': ordering_priority,
+               'price': price,
+               'image': image[0][1][0],
+               'is_available': is_available
+               }
+    return payload
+
