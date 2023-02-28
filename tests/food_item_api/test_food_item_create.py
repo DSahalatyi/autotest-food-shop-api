@@ -1,4 +1,4 @@
-import json
+from pathlib import Path
 
 import pytest
 
@@ -6,7 +6,8 @@ import pytest
 pytestmark = [pytest.mark.food_item_create]
 
 
-image = [('file', ('test.png',open('src/data/test.png', 'rb'), 'image/png'))]
+BASE_DIR = Path(__file__).parent.parent
+image = [('file', ('test.png', open(BASE_DIR/'src/data/test.png', 'rb'), 'image/png'))]
 
 
 @pytest.mark.tcid72

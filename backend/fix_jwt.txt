@@ -1,0 +1,1 @@
+declare global { namespace Express { interface Request {access: any}}}

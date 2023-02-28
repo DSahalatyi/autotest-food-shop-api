@@ -1,23 +1,25 @@
 import json
 import os
+from pathlib import Path
 
 import httpx
 import pytest
 from dotenv import load_dotenv
 
-from src.utilities.db_utility import DBUtility
-from src.utilities.random_generator \
+from tests.src.utilities.db_utility import DBUtility
+from tests.src.utilities.random_generator \
     import generate_random_user_info, generate_random_food_section_info, generate_random_food_item_info
 
 load_dotenv()
 
-base_url = os.getenv("BASE_URL")
-image = [('file', ('test.png', open('./src/data/test.png', 'rb'), 'image/png'))]
+BASE_URL = os.getenv("BASE_URL")
+BASE_DIR = Path(__file__).parent
+image = [('file', ('test.png', open(BASE_DIR/'src/data/test.png', 'rb'), 'image/png'))]
 
 
 @pytest.fixture(scope="module")
 def client():
-    with httpx.Client(base_url=base_url) as client:
+    with httpx.Client(base_url=BASE_URL) as client:
         yield client
 
 
@@ -25,7 +27,7 @@ def client():
 def client_is_staff_token(client, register_test_user):
     payload = {"username": "test_user", "password": "test_password"}
     response = client.post('api/auth/login', json=payload)
-    with httpx.Client(base_url=base_url) as client_is_staff:
+    with httpx.Client(base_url=BASE_URL) as client_is_staff:
         client_is_staff.headers.update({"authorization": f"Bearer {json.load(response)['accessToken']}"})
         yield client_is_staff
 
@@ -34,7 +36,7 @@ def client_is_staff_token(client, register_test_user):
 def client_random_token(client, register_random_user, random_user_info):
     payload = {"username": random_user_info["username"], "password": random_user_info["password"]}
     response = client.post('api/auth/login', json=payload)
-    with httpx.Client(base_url=base_url) as random_client:
+    with httpx.Client(base_url=BASE_URL) as random_client:
         random_client.headers.update({"authorization": f"Bearer {json.load(response)['accessToken']}"})
         yield random_client
 
