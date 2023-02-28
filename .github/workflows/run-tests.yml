@@ -35,7 +35,7 @@ jobs:
         uses: borales/actions-yarn@v4
         with:
           cmd: install
-          dir: ./src
+          dir: ./backend/src
       
       - name: Fix for JWT
         run: cat ./backend/fix_jwt.txt  >> ./backend/src/node_modules/@types/express/index.d.ts
