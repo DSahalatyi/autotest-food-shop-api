@@ -41,7 +41,7 @@ jobs:
         run: cat ./backend/fix_jwt.txt  >> ./backend/src/node_modules/@types/express/index.d.ts
 
       - name: Start Yarn server
-        working-directory: .backend/src
+        working-directory: ./backend/src
         run: nohup yarn start &
 
       - name: Install Python 3.10
