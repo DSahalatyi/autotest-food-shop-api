@@ -1,12 +1,14 @@
 import json
 import random, string
+from pathlib import Path
 
 
-image = [('file', ('test.png',open('src/data/test.png', 'rb'), 'image/png'))]
+BASE_DIR = Path(__file__).parent.parent
+image = [('file', ('test.png', open(BASE_DIR/'data/test.png', 'rb'), 'image/png'))]
 
 
 def generate_random_user_info():
-    names_json = open('src/data/names.json')
+    names_json = open(BASE_DIR/'data/names.json')
     names_and_surnames = json.load(names_json)
     while True:
         first_name = random.choice(list(names_and_surnames["names"]))

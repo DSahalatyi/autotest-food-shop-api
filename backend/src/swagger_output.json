@@ -1,0 +1,962 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Food Shop API",
+    "description": ""
+  },
+  "host": "localhost:5000/",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "api/auth/register": {
+      "post": {
+        "tags": ["Auth API"],
+        "description": "",
+        "parameters": [
+          {"name": "user",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/createUser"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "User has been create"
+          },
+          "400": {
+            "description": "Some of data has already used"
+          },
+          "455": {
+            "description": "Scheme validation error"
+          },
+          "5XX": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "api/auth/login": {
+      "post": {
+        "tags": ["Auth API"],
+        "description": "Sign in to the system",
+        "parameters": [
+          {"name": "user",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/loginUser"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success login"
+          },
+          "400": {
+            "description": "User with such username does not exist or password is wrong"
+          },
+          "5XX": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "api/auth/logout": {
+      "post": {
+        "tags": ["Auth API"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "cookie",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success login"
+          },
+          "403": {
+            "description": "The client does not have access rights to the content"
+          },
+          "5XX": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "api/auth/refresh": {
+      "get": {
+        "tags": ["Auth API"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "cookie",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success refresh"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "405": {
+            "description": "No token provided"
+          },
+          "5XX": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "api/user/get-all": {
+      "get": {
+        "tags": ["User API"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "405": {
+            "description": "Method Not Allowed"
+          },
+          "5XX": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "api/user/{id}/find": {
+      "get": {
+        "tags": ["User API"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "405": {
+            "description": "Method Not Allowed"
+          },
+          "5XX": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "api/user/{id}/delete": {
+      "get": {
+        "tags": ["User API"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User has been delete"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "405": {
+            "description": "Method Not Allowed"
+          },
+          "5XX": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "api/user/create": {
+      "post": {
+        "tags": ["User API"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "user",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/createUser"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "User has been create"
+          },
+          "400": {
+            "description": "Some of data has already used"
+          },
+          "405": {
+            "description": "Method Not Allowed"
+          },
+          "409": {
+            "description": "Scheme validation error"
+          },
+          "5XX": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "api/user/{id}/update": {
+      "post": {
+        "tags": ["User API"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "user",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/createUser"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User has been update"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "405": {
+            "description": "Method Not Allowed"
+          },
+          "409": {
+            "description": "Scheme validation error"
+          },
+          "5XX": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "api/food-section/get-all": {
+      "get": {
+        "tags": ["Food Section API"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/FoodSections"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "405": {
+            "description": "Method Not Allowed"
+          },
+          "5XX": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "api/food-section/{id}/find": {
+      "get": {
+        "tags": ["Food Section API"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/FoodSection"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "405": {
+            "description": "Method Not Allowed"
+          },
+          "5XX": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "api/food-section/{id}/delete": {
+      "get": {
+        "tags": ["Food Section API"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Food section has been delete"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "405": {
+            "description": "Method Not Allowed"
+          }
+        }
+      }
+    },
+    "api/food-section/create": {
+      "post": {
+        "tags": ["Food Section API"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "food-section",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/createFoodSection"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Food section has been create"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "405": {
+            "description": "Method Not Allowed"
+          },
+          "409": {
+            "description": "Scheme validation error"
+          },
+          "5XX": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "api/food-section/{id}/update": {
+      "post": {
+        "tags": ["Food Section API"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "user",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/createFoodSection"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Food section has been update"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "405": {
+            "description": "Method Not Allowed"
+          },
+          "409": {
+            "description": "Scheme validation error"
+          },
+          "5XX": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "api/food-item/get-all": {
+      "get": {
+        "tags": ["Food Item API"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/FoodItems"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "405": {
+            "description": "Method Not Allowed"
+          },
+          "5XX": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "api/food-item/{id}/find": {
+      "get": {
+        "tags": ["Food Item API"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/FoodItem"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "405": {
+            "description": "Method Not Allowed"
+          },
+          "5XX": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "api/food-item/{id}/delete": {
+      "get": {
+        "tags": ["Food Item API"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Food item has been delete"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "405": {
+            "description": "Method Not Allowed"
+          },
+          "5XX": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "api/food-item/create": {
+      "post": {
+        "tags": ["Food Item API"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "user",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/createFoodItem"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Food item has been create"
+          },
+          "400": {
+            "description": "No file upload"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "405": {
+            "description": "Method Not Allowed"
+          }
+        }
+      }
+    },
+    "api/food-item/{id}/update": {
+      "post": {
+        "tags": ["Food Item API"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "user",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/createFoodItem"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Food item has been update"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "405": {
+            "description": "Method Not Allowed"
+          },
+          "409": {
+            "description": "Scheme validation error"
+          },
+          "5XX": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "api/food/section/get-all": {
+      "get": {
+        "tags": ["Food API"],
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/FoodSections"
+            }
+          },
+          "5XX": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "api/food/item/get-list-by-section": {
+      "post": {
+        "tags": ["Food API"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "body"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/FoodItems"
+            }
+          }
+        }
+      }
+    },
+    "api/admin/models": {
+      "get": {
+        "tags": ["Admin API"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "405": {
+            "description": "Method Not Allowed"
+          }
+        }
+      }
+    },
+    "api/admin/{model}/keys": {
+      "get": {
+        "tags": ["Admin API"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "model",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "405": {
+            "description": "Method Not Allowed"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "required": ["username", "email", "password", "first_name", "last_name", "age", "phone_number"],
+      "properties": {
+        "_id": {
+          "type": "Types.ObjectId"
+        },
+        "username": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "email": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "password": {
+          "type": "string"
+        },
+        "first_name": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
+        },
+        "age": {
+          "type": "number"
+        },
+        "phone_number": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "is_staff": {
+          "type": "boolean"
+        },
+        "is_active": {
+          "type": "boolean"
+        }
+      }
+    },
+    "Users": {
+      "type": "array",
+      "$ref": "#/definitions/User"
+    },
+    "FoodItem": {
+      "required": ["name", "food_section", "ordering_priority", "image", "price"],
+      "properties": {
+        "_id": {
+          "type": "Types.ObjectId"
+        },
+        "name": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "food_section": {
+          "type": "Types.ObjectId",
+          "uniqueItems": true
+        },
+        "ordering_priority": {
+          "type": "number"
+        },
+        "is_available": {
+          "type": "boolean"
+        },
+        "image": {
+          "type": "string"
+        },
+        "price": {
+          "type": "Types.Decimal128"
+        }
+      }
+    },
+    "FoodItems": {
+      "type": "array",
+      "$ref": "#/definitions/FoodItem"
+    },
+    "FoodSection": {
+      "required": ["name", "ordering_priority"],
+      "properties": {
+        "_id": {
+          "type": "Types.ObjectId"
+        },
+        "name": {
+          "type": "string",
+          "uniqueItems": true,
+          "example": "test-section"
+        },
+        "ordering_priority": {
+          "type": "number",
+          "example": 100500
+        },
+        "is_available": {
+          "type": "boolean",
+          "example": true
+        },
+        "image": {
+          "type": "string",
+          "example": "https://via.placeholder.com/150"
+        }
+      }
+    },
+    "FoodSections": {
+      "type": "array",
+      "$ref": "#/definitions/FoodSection"
+    },
+    "createUser": {
+      "required": ["username", "email", "password", "first_name", "last_name", "age", "phone_number"],
+      "properties": {
+        "username": {
+          "type": "string",
+          "uniqueItems": true,
+          "example": "vanek1337"
+        },
+        "email": {
+          "type": "string",
+          "uniqueItems": true,
+          "example": "vanenk1337@g.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "123456789"
+        },
+        "first_name": {
+          "type": "string",
+          "example": "John"
+        },
+        "last_name": {
+          "type": "string",
+          "example": "Week"
+        },
+        "age": {
+          "type": "number",
+          "example": 25
+        },
+        "phone_number": {
+          "type": "string",
+          "uniqueItems": true,
+          "example": "0982312432"
+        },
+        "is_staff": {
+          "type": "boolean",
+          "example": false
+        },
+        "is_active": {
+          "type": "boolean",
+          "example": true
+        }
+      }
+    },
+    "loginUser": {
+      "required": ["username", "password"],
+      "properties": {
+        "username": {
+          "type": "string",
+          "uniqueItems": true,
+          "example": "vanek322"
+        },
+        "password": {
+          "type": "string",
+          "example": "123456789"
+        }
+      }
+    },
+    "createFoodItem": {
+      "required": ["name", "food_section", "ordering_priority", "image", "price"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Dr. Papper"
+        },
+        "food_section": {
+          "type": "Types.ObjectId",
+          "example": "639464f228eaf5668e00353f"
+        },
+        "ordering_priority": {
+          "type": "number",
+          "example": 1
+        },
+        "image": {
+          "type": "string",
+          "example": "images/Dr.Papper.PNG"
+        },
+        "price": {
+          "type": "Types.Decimal128",
+          "example": 22.3
+        },
+        "is_available": {
+          "type": "boolean",
+          "example": true
+        }
+      }
+    },
+    "createFoodSection": {
+      "required": ["name", "ordering_priority"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Test-section"
+        },
+        "ordering_priority": {
+          "type": "number",
+          "example": 199
+        },
+        "image": {
+          "type": "string",
+          "example": "https://via.placeholder.com/150"
+        },
+        "is_available": {
+          "type": "boolean",
+          "example": true
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "schema": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

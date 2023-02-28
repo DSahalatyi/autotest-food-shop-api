@@ -1,3 +1,5 @@
+from bson import ObjectId
+
 import pytest
 
 pytestmark = pytest.mark.user_find
